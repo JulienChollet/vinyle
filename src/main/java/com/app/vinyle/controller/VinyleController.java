@@ -21,10 +21,10 @@ public class VinyleController {
     }
 
     @PostMapping("/vinyle")
-public Mono<ResponseEntity<Vinyle>> vinyle(@RequestBody Mono<Vinyle> vinyleMono) {
+    public Mono<ResponseEntity<Vinyle>> createVinyle(@RequestBody Mono<Vinyle> vinyleMono) {
     return vinyleMono.flatMap(vinyleService::saveVinyle)
             .map(savedVinyle -> ResponseEntity.status(HttpStatus.CREATED).body(savedVinyle))
             .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-}
+    }
 
 }
