@@ -1,9 +1,11 @@
 package com.app.vinyle.service;
 
-import com.app.vinyle.Vinyle;
+import domain.Vinyle;
 import com.app.vinyle.repository.VinyleRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 
 @Service
 public class VinyleService {
@@ -14,7 +16,11 @@ public class VinyleService {
     }
 
     public Mono<Vinyle> saveVinyle(Vinyle vinyle) {
-    return vinyleRepository.save(vinyle);
+
+    return  vinyleRepository.save(vinyle);
 }
 
+    public Flux<Vinyle> getAllVinyles() {
+        return vinyleRepository.findAll();
+    }
 }
