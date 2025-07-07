@@ -1,6 +1,8 @@
 package com.app.vinyle.controller;
 
-import domain.Vinyle;
+import com.app.vinyle.dto.VinyleRequest;
+import com.app.vinyle.dto.VinyleResponse;
+import com.app.vinyle.mapper.VinyleMapper;
 import com.app.vinyle.service.VinyleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +23,19 @@ public class VinyleController {
     }
 
     @PostMapping("/vinyle")
-    public Mono<ResponseEntity<Vinyle>> createVinyle(@RequestBody Mono<Vinyle> vinyleMono) {
-    return vinyleMono.flatMap(vinyleService::saveVinyle)
-            .map(savedVinyle -> ResponseEntity.status(HttpStatus.CREATED).body(savedVinyle))
+    public Mono<ResponseEntity<VinyleResponse>> createVinyle(@RequestBody Mono<VinyleRequest> vinyleMono) {
+    return vinyleMono
+            .map(VinyleMapper::vinyleRequestToDomain)
+            .flatMap(vinyleService::saveVinyle)
+            .map(VinyleMapper::vinyleDomainToResponse)
+            .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
             .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
     @GetMapping("/vinyles")
-    public Flux<ResponseEntity<Vinyle>> getAllVinyles(){
+    public Flux<ResponseEntity<VinyleResponse>> getAllVinyles(){
         return vinyleService.getAllVinyles()
-                .map(vinyle -> ResponseEntity.ok().body(vinyle));
+                .map(vinyls -> ResponseEntity.ok().body(VinyleMapper.vinyleDomainToResponse(vinyls)));
     }
 
 }

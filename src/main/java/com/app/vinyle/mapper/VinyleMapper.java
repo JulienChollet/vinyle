@@ -7,11 +7,16 @@ import com.app.vinyle.entity.VinyleEntity;
 
 public class VinyleMapper {
 
+
+    private VinyleMapper() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
     public static VinyleEntity domainToEntity (VinyleDomain vinyleDomain){
         return new VinyleEntity(vinyleDomain.id(), vinyleDomain.band(),vinyleDomain.name(),vinyleDomain.titles(),
                 vinyleDomain.type(),vinyleDomain.description());
     }
-    public static VinyleDomain entityToDoamain(VinyleEntity vinyleEntity){
+    public static VinyleDomain entityToDomain(VinyleEntity vinyleEntity){
         return new VinyleDomain (vinyleEntity.getId(), vinyleEntity.getBand(),vinyleEntity.getName(),vinyleEntity.getTitles(),
                 vinyleEntity.getType(),vinyleEntity.getDescription());
     }
@@ -21,10 +26,9 @@ public class VinyleMapper {
                 vinyleRequest.titles(), vinyleRequest.type(), vinyleRequest.description());
     }
 
-    public static VinyleDomain vinyleResponseToDomain(VinyleResponse vinyleResponse) {
-
-        return  new VinyleDomain(vinyleResponse.id(), vinyleResponse.band(), vinyleResponse.band(),
-                vinyleResponse.titles(), vinyleResponse.type(), vinyleResponse.description());
+    public static VinyleResponse vinyleDomainToResponse(VinyleDomain vinyleDomain) {
+        return  new VinyleResponse(vinyleDomain.id(), vinyleDomain.band(), vinyleDomain.band(),
+                vinyleDomain.titles(), vinyleDomain.type(), vinyleDomain.description());
     }
 
 

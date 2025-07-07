@@ -1,6 +1,7 @@
 package com.app.vinyle.service;
 
-import domain.Vinyle;
+import com.app.vinyle.domain.VinyleDomain;
+import com.app.vinyle.mapper.VinyleMapper;
 import com.app.vinyle.repository.VinyleRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -15,12 +16,13 @@ public class VinyleService {
         this.vinyleRepository = vinyleRepository;
     }
 
-    public Mono<Vinyle> saveVinyle(Vinyle vinyle) {
+    public Mono<VinyleDomain> saveVinyle(VinyleDomain vinyle) {
+        return  vinyleRepository.save(VinyleMapper.domainToEntity(vinyle))
+                .map(VinyleMapper::entityToDomain);
+    }
 
-    return  vinyleRepository.save(vinyle);
-}
-
-    public Flux<Vinyle> getAllVinyles() {
-        return vinyleRepository.findAll();
+    public Flux<VinyleDomain> getAllVinyles() {
+        return vinyleRepository.findAll()
+                .map(VinyleMapper::entityToDomain);
     }
 }
