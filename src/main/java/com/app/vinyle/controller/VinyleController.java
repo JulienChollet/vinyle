@@ -1,5 +1,6 @@
 package com.app.vinyle.controller;
 
+import com.app.vinyle.domain.VinyleDomain;
 import com.app.vinyle.dto.VinyleRequest;
 import com.app.vinyle.dto.VinyleResponse;
 import com.app.vinyle.mapper.VinyleMapper;
@@ -8,8 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -33,9 +35,9 @@ public class VinyleController {
     }
 
     @GetMapping("/vinyles")
-    public Flux<ResponseEntity<VinyleResponse>> getAllVinyles(){
+    public Mono<ResponseEntity<List<VinyleDomain>>> getAllVinyles(){
         return vinyleService.getAllVinyles()
-                .map(vinyls -> ResponseEntity.ok().body(VinyleMapper.vinyleDomainToResponse(vinyls)));
+                .map(vinyles -> ResponseEntity.ok().body(vinyles));
     }
 
 }

@@ -4,8 +4,8 @@ import com.app.vinyle.domain.VinyleDomain;
 import com.app.vinyle.mapper.VinyleMapper;
 import com.app.vinyle.repository.VinyleRepository;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.List;
 
 
 @Service
@@ -21,8 +21,10 @@ public class VinyleService {
                 .map(VinyleMapper::entityToDomain);
     }
 
-    public Flux<VinyleDomain> getAllVinyles() {
-        return vinyleRepository.findAll()
-                .map(VinyleMapper::entityToDomain);
+    public Mono<List<VinyleDomain>> getAllVinyles() {
+       return vinyleRepository.findAll().collectList()
+                .map(vinyleEntities -> vinyleEntities.stream()
+                        .map(VinyleMapper::entityToDomain)
+                        .toList());
     }
 }
