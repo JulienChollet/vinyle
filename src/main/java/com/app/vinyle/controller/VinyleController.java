@@ -38,4 +38,20 @@ public class VinyleController {
         return vinyleService.getAllVinyles();
     }
 
+    @GetMapping("/vinyle/{id}")
+    public Mono<ResponseEntity<VinyleResponse>> getOneVinyleById(@PathVariable String id){
+        return vinyleService.getOneVinyleById(id)
+                .map(VinyleMapper::vinyleDomainToResponse)
+                .map(vinyleResponse -> ResponseEntity.status(HttpStatus.OK).body(vinyleResponse))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+    }
+
+    @DeleteMapping("/vinyle/{id}")
+    public Mono<ResponseEntity<String>> deleteVinyleById(@PathVariable String id){
+        return vinyleService.deleteOneVinyleById(id)
+                .map(response -> ResponseEntity.status(HttpStatus.OK).body(response + " " + id))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Le vinyle : " + id + " ne peut pas être effacé."));
+    }
+
+
 }

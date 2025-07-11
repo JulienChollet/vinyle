@@ -1,14 +1,13 @@
-package com.app.vinyle.controller;
+package com.app.vinyle.service;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VinyleControllerTest {
-
+class VinyleServiceTest {
 
     @Test
-    void createVinyle() {
+    void saveVinyle() {
     }
 
     @Test

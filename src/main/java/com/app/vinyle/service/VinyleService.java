@@ -24,4 +24,18 @@ public class VinyleService {
     public Flux<VinyleDomain> getAllVinyles() {
        return vinyleRepository.findAll().map(VinyleMapper::entityToDomain);
     }
+
+    public Mono<Boolean> deleteOneVinyleById(String id){
+        return vinyleRepository.findById(id)
+                .flatMap(vinyleEntity ->
+                    vinyleRepository.deleteById(vinyleEntity.getId()).thenReturn(true))
+                .defaultIfEmpty(false);
+    }
+
+    public Mono<VinyleDomain> getOneVinyleById(String id) {
+        return vinyleRepository.findById(id)
+                .map(VinyleMapper::entityToDomain);
+    }
+
+    //public Mono<VinyleDomain> partialUpdate()
 }
