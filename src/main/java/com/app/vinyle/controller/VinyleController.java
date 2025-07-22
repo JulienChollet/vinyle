@@ -53,5 +53,8 @@ public class VinyleController {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Le vinyle : " + id + " ne peut pas être effacé."));
     }
 
+    @PatchMapping("/update/vinyle/{id}")
+    public Mono<ResponseEntity<VinyleResponse>>
+
 
 }
